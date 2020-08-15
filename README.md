@@ -1,6 +1,6 @@
-# grainsize_measure
+# Count_Measure_Objects
 
-Package to measure number of occurences of a repeated object within an image and its average size 
+Class to measure number of occurences of a repeated object within an image and its average size 
 
 ## Project Overview
 
@@ -27,30 +27,26 @@ Several companies offer software that can measure automatically or semi-automati
 
 Other quite robust and popular image analysis tools like [ImageJ](https://imagej.net/Welcome/), do not offer to my best knowledge an "operator-free" method to achieve this and be able to measure automatically thousands of images that have different lighting and varying types of clusters. 
 
-The problem at hand is to offer a simple package, free of cost, that can count how many clusters (or any self-similar object) are present within in an image and measure their average size. This should work "operator-free" and can be trained to increase the accuracy of the prediction using a fit function with one single image.  
+The problem at hand is to offer a simple class, free of cost, that can count how many clusters (or any self-similar object) are present within in an image and measure their average size. This should work "operator-free" and can be trained to increase the accuracy of the prediction using a fit function.  
 
-I emphasize the single-image-training function, since I argue now a days you could easily solve this problem if you had enough labelled examples: for examples thousands of labelled images with all possbile cluster numbers. Current transfer learning methods of available convolutional deep neural networks should be able to achieve this. In fact this is the first method used by this package. 
-
-However, actually getting the labels of so many images is the current task at hand, and this is the task that these package attempts to tackle   
-
-Therefore the package offers 3 main functions
+Therefore the class Count_Measure_Objects offers 3 main methods
 
 + Predict: Predicts the number of clusters and their average size
 + Evaluate: Evaluates the accuracy of the model's prediction versus measured images 
-+ Fit: trains the model with one image to optimize the models prediction to this type of image
++ Fit: trains the classification model with your dataset to optimize the models prediction to your images
 
 ## Metrics
 
-The package offers an evaluate method. The metrics used to evaluate the predictions of the model is the root mean square error (rmse) and the coefficient of determination of the cluster number and of the average cluster size. This can be evaluated on an image set where the images are labelled as in the following label 1pepper_m_1.6_s_1.5.bmp where 
-the value after m_ corresponds to the log10(mean size in pixel) and the value after s corresponds to the log10(object counts).
+The class offers an evaluate_imagefolder method. The metrics used to evaluate the predictions of the model is the root mean square error (rmse) and the coefficient of determination of the cluster number and of the average cluster size. The method can be applied on an image set where the images are labelled as in the following label 1pepper_m_1.6_s_1.5.bmp, where the value after m_ corresponds to the log10(mean size in pixel) and the value after s corresponds to the log10(object counts).
 
 ### Installing and deployment
-For installation download the folder 60_Grainsize_project and save it on your prefered location. Please take into account that a pretrained model (~530MB) is within the folder ./DL_pretrained. If you do not want to download the model, you can download everything else and first train a model on your data using the fit_trainfolder method.
 
-Fun the file grain_size_class.py to have access to the class Count_Measure_Objects.
+For installation download the folder 60_Grainsize_project and save it on your prefered location. Please take into account that a pretrained model (~530MB) for the plug and play functionality is within the folder ./DL_pretrained. If you do not want to download the full model, you can download everything else and first train a model on your data using the fit_trainfolder method.
+
+Run the file Count_Measure_Objects.py to have access to the class Count_Measure_Objects.
 Finally instantiate an object of the Count_Measure_Objects class, for example
 
-p=Count_Measure_Objects()
++ p=Count_Measure_Objects()
 
 The objects of the Count_Measure_Objects class have three methods:
 
@@ -85,7 +81,7 @@ The images to be analyzed must be in the .bmp format, they must be of 500x500 in
             the value after s corresponds to the log10(object counts)
         
         Returns: 
-            dataframe containing, filname, labelled m and s, predicted m and s
+            pandas dataframe containing, filname, labelled m and s, predicted m and s
                         class of the image, predicted class
             
             rmse: root mean square errors of the m and s prediction 
@@ -99,9 +95,9 @@ The images to be analyzed must be in the .bmp format, they must be of 500x500 in
                 
                 epochs is the number of epochs to train 
                 
-        Returns: A dataframe with the train and test losses
-                as a function of the epochs. A new checkpoint is saved 
-
+        Returns a pandas dataframe with the train and test losses
+                as a function of the epochs. Furhtermore a new checkpoint is saved
+                under ./DL_pretrained
 
 ## Authors
 
