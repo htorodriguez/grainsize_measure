@@ -36,70 +36,71 @@ However, actually getting the labels of so many images is the current task at ha
 Therefore the package offers 3 main functions
 
 + Predict: Predicts the number of clusters and their average size
++ Evaluate: Evaluates the accuracy of the model's prediction versus measured images 
 + Fit: trains the model with one image to optimize the models prediction to this type of image
-+ Evaluate: Evaluates the accuracy of the model's prediction versus a known image 
 
 ## Metrics
 
-The package offers an evaluate method. The metrics used to evaluate the predictions of the model is the root mean square error (rmse) and the coefficient of determination of the cluster number and of the average cluster size. This can be evaluated on any given test image or set. For demonstration purposes this will be evaluated on a toy data set created by myself by taking pictures of rice and analysing them previously using [imageJ](https://imagej.net)
+The package offers an evaluate method. The metrics used to evaluate the predictions of the model is the root mean square error (rmse) and the coefficient of determination of the cluster number and of the average cluster size. This can be evaluated on an image set where the images are labelled as in the following label 1pepper_m_1.6_s_1.5.bmp where 
+the value after m_ corresponds to the log10(mean size in pixel) and the value after s corresponds to the log10(object counts).
 
-The coefficient of determination is defined as [explained in wikipedia](https://en.wikipedia.org/wiki/Coefficient_of_determination)
+### Installing and deployment
+For installation download the folder 60_Grainsize_project and save it on your prefered location. Please take into account that a pretrained model (~530MB) is within the folder ./DL_pretrained. If you do not want to download the model, you can download everything else and first train a model on your data using the fit_trainfolder method.
 
-### Installing
+Fun the file grain_size_class.py to have access to the class Count_Measure_Objects.
+Finally instantiate an object of the Count_Measure_Objects class, for example
 
+p=Count_Measure_Objects()
 
+The objects of the Count_Measure_Objects class have three methods:
 
-## Deployment
++ predict_image: predicts counts and average sizes of objects within an image
++ evaluate_imagefolder :evaluate the prediction versus labelled images
++ fit_trainfolder: fits the classification network to a new set of images
 
-This package is available for download under XXXXXXXXXX
-
-
-### Users Manual
+### Users Manual and Methods
 
 The images to be analyzed must be in the .bmp format, they must be of 500x500 in size and have three channels RGB
 
-The prediction is a tuple of (the number of clusters,  and their average size as a percentage of the image length) 
+#### predict_image(image_path)
+        Args: 
+            image_path: string with image path     
+        Returns: 
+            pred_class: int with predicted class, 10, 100, or 1000
+            clusters: int with predcited number of clusters
+            mean_radius: int with mean radius in pixels
+            log_mean_radius: float with log10(mean radius)
 
-The package has the following functions
-
-#### predict: 
-Input: path to image
-Output: tuple of preduction results
-
-#### predict_folder: 
-Input: path to image folder
-Output: list of tuples containing the image name, 
-
-#### fit: 
-Input: tuple of (path to image, (number of clusters, average size as a percentage of the image length ))  
-Output: none
-
-Note that the package comes with a trained model, therefore it is not necessary to fit the model to obtain a preduction
-
-#### evaluate:
-
-Input: path to image. The image name must have the format "imagename_m_x.x_s_x.x.bmp", where :
-               x.x after m_ is a decimal number equal to the log10(average size in pixels), for example m_1.6
-               x.x after s_ is a decimal number equal to the log10(number of clusters), for example s_6.8
-
-Output: tuple of (predicted cluster nr, 
-                  predicted average size, 
-                  root mean square error of cluster number,
-                  root mean square error of cluster size) 
-
-#### evaluate_folder:
-Input: path to 500x500 large RGB image folder. The image file names in the folder must have the format
-                "imagename_m_x.x_s_x.x.bmp", where :
-               x.x after m_ is a decimal number equal to the log10(average size in pixels), for example m_1.6
-               x.x after s_ is a decimal number equal to the log10(number of clusters), for example s_6.8
+#### evaluate_imagefolder(datafolder,folder_class)
+        Args: 
+            datafolder: Path to a datafolder containing the labelled images
+            folder_class:The class of the images in the data folder must be given as a str
+            eg: '100'
+            
+            The images within the folder must be labelled as in the following label
+            1pepper_m_1.6_s_1.5.bmp
+            
+            where 
+            the value after m corresponds to the log10(mean size in pixel)
+            the value after s corresponds to the log10(object counts)
         
-Output: tuple of (predicted cluster nr, 
-                  predicted average size, 
-                  root mean square error of cluster number,
-                  root mean square error of cluster size,
-                  coefficient of determination R2 of the cluster number prediction,
-                   coefficient of determination R2 of the size prediction
-                          ) 
+        Returns: 
+            dataframe containing, filname, labelled m and s, predicted m and s
+                        class of the image, predicted class
+            
+            rmse: root mean square errors of the m and s prediction 
+            r2: coefficient of determination of m and s predictions
+
+#### fit_trainfolder(datafolder, epochs)
+        Args: Datafolder containing the images to trian the network
+                The Data folder should contain two folders, train and test
+                within train and test the images should be within folders having
+                the names 10, 100, and 1000 corresponding to the classes
+                
+                epochs is the number of epochs to train 
+                
+        Returns: A dataframe with the train and test losses
+                as a function of the epochs. A new checkpoint is saved 
 
 
 ## Authors
