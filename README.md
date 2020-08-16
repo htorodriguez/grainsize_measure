@@ -12,10 +12,7 @@ The measurement of the number of occurences of a similar object and their averag
 For example in geology, the grain size is used to study the 
 [flow of sediments in river beds](https://onlinelibrary.wiley.com/doi/abs/10.1002/(SICI)1096-9837(199804)23:4%3C345::AID-ESP850%3E3.0.CO;2-B?casa_token=UIcTFPtknAoAAAAA:KBH3_aXOdTmNBRC-7JEqlXBEp0doUwJIJVG4xQbGPDBnkGCyZozqg6xxJBOSWff2bm6U47S6IXZBSw)
 
-In metallurgy, and more generally in material sciences, the grain size distribution of a material will determine their [mechanical properties](https://escholarship.org/content/qt88g8n6f8/qt88g8n6f8.pdf), as is typical in steel
-
-and their electrical and optical properties, as is typical in semiconductors such as [silicon](https://www.sciencedirect.com/science/article/abs/pii/S1369800111000886) 
-and [compound semiconductors](https://www.sciencedirect.com/science/article/abs/pii/S1359645413002784)
+In metallurgy, and more generally in material sciences, the grain size distribution of a material will determine their [mechanical properties](https://escholarship.org/content/qt88g8n6f8/qt88g8n6f8.pdf), as is typical in steel and their electrical and optical properties, as is typical in semiconductors such as [silicon](https://www.sciencedirect.com/science/article/abs/pii/S1369800111000886) and [compound semiconductors](https://www.sciencedirect.com/science/article/abs/pii/S1359645413002784)
 
 To determine the size and number of grains per unit volume, usually a determination of this distribution in a 2D image is sufficient if a sensible assumption can be made about the 3D geometry (spherical, columnar, etc.). These 2D images can come from an optical, electronic or any other type of microscope, or from a simple "every-day" digital camera. 
 
@@ -46,7 +43,7 @@ For installation download the folder 60_Grainsize_project and save it on your pr
 Run the file Count_Measure_Objects.py to have access to the class Count_Measure_Objects.
 Finally instantiate an object of the Count_Measure_Objects class, for example
 
-+ p=Count_Measure_Objects()
++ your_instance=Count_Measure_Objects()
 
 The objects of the Count_Measure_Objects class have three methods:
 
@@ -99,9 +96,30 @@ The images to be analyzed must be in the .bmp format, they must be of 500x500 in
                 as a function of the epochs. Furhtermore a new checkpoint is saved
                 under ./DL_pretrained
 
+### Examples
+
+Here are some examples of the main functionalities
+First run the file Count_Measure_Objects.py to have access to the Count_Measure_Objects class and be sure that you are working in the ./60_Grainsize_project directory
+
++ Predict an image
+        my_counter=Count_Measure_Objects()
+        my_counter.predict_image('./DL_data/200_predict/beans6_m_1.4_s_1.8.bmp')
+
+Alternatively
+        my_counter=Count_Measure_Objects('./DL_data/200_predict/beans6_m_1.4_s_1.8.bmp')
+        my_counter.predict_image()    
+        
++ Evaluate the metrics of the model on a measured dataset of class'100' images
+        my_counter=Count_Measure_Objects()
+        my_counter.evaluate_imagefolder('./DL_data/100_data/train/100','100')          
+
++ Train 1000 epochs of the neural network to classify your images into 10,100, or 1000 classes
+        my_counter=Count_Measure_Objects()
+        my_counter.evaluate_imagefolderfit_trainfolder('./DL_data/100_data', 1000)         
+
 ## Authors
 
-* **Humberto Rodriguze-Alvarez** 
+* **Humberto Rodriguez-Alvarez** 
 
 ## License
 
