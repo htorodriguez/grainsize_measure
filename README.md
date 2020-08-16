@@ -48,7 +48,7 @@ For installation:
 
 4) First train and save model with the data given. This will save a checkpoint_vgg11.pth file in the ./DL_pretrained folder. You need to do this only the first time. You can redo this with your own data to tweek the model to your images
         
-        my_counter.evaluate_imagefolderfit_trainfolder('./DL_data/100_data', 1000)  
+        my_counter.fit_trainfolder('./DL_data/100_data', 1000)  
 
 5) Use the class methods
 
