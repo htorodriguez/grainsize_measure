@@ -38,14 +38,19 @@ The class offers an evaluate_imagefolder method. The metrics used to evaluate th
 
 For installation: 
 
-1) Download the folder 60_Grainsize_project and save it on your prefered location. Please take into account that a pretrained model (~530MB) for the plug and play functionality is within the folder ./DL_pretrained. If you do not want to download the full model, you can download everything else and first train a model on your data using the fit_trainfolder method.
+1) Download the folder 60_Grainsize_project and save it on your preffered location. 
 
 2) Run the file Count_Measure_Objects.py to have access to the class Count_Measure_Objects.
+
 3) Instantiate an object of the Count_Measure_Objects class, for example
 
-        your_instance=Count_Measure_Objects()
+        my_counter=Count_Measure_Objects()
 
-4) Use the class methods
+4) First train and save model with the data given. This will save a checkpoint_vgg11.pth file in the ./DL_pretrained folder. You need to do this only the first time. You can redo this with your own data to tweek the model to your images
+        
+        my_counter.evaluate_imagefolderfit_trainfolder('./DL_data/100_data', 1000)  
+
+5) Use the class methods
 
 + predict_image: predicts counts and average sizes of objects within an image
 + evaluate_imagefolder :evaluate the prediction versus labelled images
@@ -102,6 +107,7 @@ Here are some examples of the main functionalities
 
 First run the file Count_Measure_Objects.py to have access to the Count_Measure_Objects class and be sure that you are working in the ./60_Grainsize_project directory
 
+
 + Predict an image
         my_counter=Count_Measure_Objects()
         my_counter.predict_image('./DL_data/200_predict/beans6_m_1.4_s_1.8.bmp')  
@@ -112,7 +118,8 @@ First run the file Count_Measure_Objects.py to have access to the Count_Measure_
 
 + Train 1000 epochs of the neural network to classify your images into 10,100, or 1000 classes
         my_counter=Count_Measure_Objects()
-        my_counter.evaluate_imagefolderfit_trainfolder('./DL_data/100_data', 1000)         
+        my_counter.evaluate_imagefolderfit_trainfolder('./DL_data/100_data', 1000)  
+       
 
 ## Authors
 
