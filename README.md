@@ -1,10 +1,10 @@
 # Count_Measure_Objects
 
-Class to measure number of occurences of a repeated object within an image and its average size 
+Class to measure number of occurences of a repeated object within an image and measure its average size 
 
 ## Project Overview
 
-The measurement of the number of occurences of a similar object and their average size within a 2D image is common to several scientific and engineering fields such as 
+The measurement of the number of occurences of a similar object and its average size within a 2D image is common to several scientific and engineering fields such as 
 - metallurgy
 - geology
 - earth sciences
@@ -12,19 +12,17 @@ The measurement of the number of occurences of a similar object and their averag
 For example in geology, the grain size is used to study the 
 [flow of sediments in river beds](https://onlinelibrary.wiley.com/doi/abs/10.1002/(SICI)1096-9837(199804)23:4%3C345::AID-ESP850%3E3.0.CO;2-B?casa_token=UIcTFPtknAoAAAAA:KBH3_aXOdTmNBRC-7JEqlXBEp0doUwJIJVG4xQbGPDBnkGCyZozqg6xxJBOSWff2bm6U47S6IXZBSw)
 
-In metallurgy, and more generally in material sciences, the grain size distribution of a material will determine their [mechanical properties](https://escholarship.org/content/qt88g8n6f8/qt88g8n6f8.pdf), as is typical in steel and their electrical and optical properties, as is typical in semiconductors such as [silicon](https://www.sciencedirect.com/science/article/abs/pii/S1369800111000886) and [compound semiconductors](https://www.sciencedirect.com/science/article/abs/pii/S1359645413002784)
+In material sciences the grain size distribution of a material will determine their [mechanical properties](https://escholarship.org/content/qt88g8n6f8/qt88g8n6f8.pdf), as is typical in steel and their electrical and optical properties, as is typical in semiconductors such as [silicon](https://www.sciencedirect.com/science/article/abs/pii/S1369800111000886) and [compound semiconductors](https://www.sciencedirect.com/science/article/abs/pii/S1359645413002784)
 
 To determine the size and number of grains per unit volume, usually a determination of this distribution in a 2D image is sufficient if a sensible assumption can be made about the 3D geometry (spherical, columnar, etc.). These 2D images can come from an optical, electronic or any other type of microscope, or from a simple "every-day" digital camera. 
 
-Counting and measuring mean sizes of repetitive objects within an image is a technical and in a sense economical problem that is adressed by this package. In the following instead of calling them "grains" they will be called "clusters" since in the general case they do not necesarilly have to be grains.
+Counting and measuring objects within an image is a technical and in a sense economical problem that is adressed by this package.
 
 ## Problem Statement
 
-Several companies offer software that can measure automatically or semi-automatically cluster sizes and distributions.  However they are often limited to the images produced by their metrology equipment, and they are in most cases not free of cost. For Example [Lanoptik](https://www.lanoptik.com/microscope-software-iworks-fg)
+Several companies offer software that can measure automatically or semi-automatically cluster sizes and distributions.  However they are often limited to the images produced by their metrology equipment, and in most cases they are not free. For Example [Lanoptik](https://www.lanoptik.com/microscope-software-iworks-fg)
 
-Other quite robust and popular image analysis tools like [ImageJ](https://imagej.net/Welcome/), do not offer to my best knowledge an "operator-free" method to achieve this and be able to measure automatically thousands of images that have different lighting and varying types of clusters. 
-
-The problem at hand is to offer a simple class, free of cost, that can count how many clusters (or any self-similar object) are present within in an image and measure their average size. This should work "operator-free" and can be trained to increase the accuracy of the prediction using a fit function.  
+Other robust and popular image analysis tools like [ImageJ](https://imagej.net/Welcome/), do not offer to my best knowledge an "operator-free" method to achieve this and be able to measure automatically several images with one command. The problem at hand is to offer a simple class, free of cost, that can count how many clusters (or any self-similar object) are present within in an image and measure their average size. The class is "operator-free" and can be trained to increase the accuracy of the prediction using a fit function.  
 
 Therefore the class Count_Measure_Objects offers 3 main methods
 
@@ -38,14 +36,16 @@ The class offers an evaluate_imagefolder method. The metrics used to evaluate th
 
 ### Installing and deployment
 
-For installation download the folder 60_Grainsize_project and save it on your prefered location. Please take into account that a pretrained model (~530MB) for the plug and play functionality is within the folder ./DL_pretrained. If you do not want to download the full model, you can download everything else and first train a model on your data using the fit_trainfolder method.
+For installation: 
 
-Run the file Count_Measure_Objects.py to have access to the class Count_Measure_Objects.
-Finally instantiate an object of the Count_Measure_Objects class, for example
+1) Download the folder 60_Grainsize_project and save it on your prefered location. Please take into account that a pretrained model (~530MB) for the plug and play functionality is within the folder ./DL_pretrained. If you do not want to download the full model, you can download everything else and first train a model on your data using the fit_trainfolder method.
 
-+ your_instance=Count_Measure_Objects()
+2) Run the file Count_Measure_Objects.py to have access to the class Count_Measure_Objects.
+3) Instantiate an object of the Count_Measure_Objects class, for example
 
-The objects of the Count_Measure_Objects class have three methods:
+        your_instance=Count_Measure_Objects()
+
+4) Use the class methods
 
 + predict_image: predicts counts and average sizes of objects within an image
 + evaluate_imagefolder :evaluate the prediction versus labelled images
@@ -53,7 +53,7 @@ The objects of the Count_Measure_Objects class have three methods:
 
 ### Users Manual and Methods
 
-The images to be analyzed must be in the .bmp format, they must be of 500x500 in size and have three channels RGB
+The images to be analyzed must be in the .bmp format, they must be of 500x500 in size and have three channels RGB. The class methods are desccribed below
 
 #### predict_image(image_path)
         Args: 
@@ -99,15 +99,12 @@ The images to be analyzed must be in the .bmp format, they must be of 500x500 in
 ### Examples
 
 Here are some examples of the main functionalities
+
 First run the file Count_Measure_Objects.py to have access to the Count_Measure_Objects class and be sure that you are working in the ./60_Grainsize_project directory
 
 + Predict an image
         my_counter=Count_Measure_Objects()
-        my_counter.predict_image('./DL_data/200_predict/beans6_m_1.4_s_1.8.bmp')
-
-Alternatively
-        my_counter=Count_Measure_Objects('./DL_data/200_predict/beans6_m_1.4_s_1.8.bmp')
-        my_counter.predict_image()    
+        my_counter.predict_image('./DL_data/200_predict/beans6_m_1.4_s_1.8.bmp')  
         
 + Evaluate the metrics of the model on a measured dataset of class'100' images
         my_counter=Count_Measure_Objects()
